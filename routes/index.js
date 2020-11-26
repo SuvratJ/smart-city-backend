@@ -283,4 +283,57 @@ router.get('/tomm/area/:area/util/:util', function(req, res, next) {
   }
   
 });
+
+
+
+
+
+
+
+
+
+
+router.get('/message/:num/place/:place', function(req, res, next) {
+
+  const https = require('https')
+
+  const data = JSON.stringify({
+    Place:req.params.place
+  })
+
+  const options = {
+    hostname: 'smart-city-project-155f4.firebaseio.com',
+    path: '/mobile/'+req.params.num+'.json',
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': data.length
+    }
+  }
+
+  const reqq = https.request(options, ress => {
+    console.log(`statusCode: ${ress.statusCode}`)
+
+    ress.on('data', d => {
+      res.send(d);
+
+    })
+  })
+
+  reqq.on('error', error => {
+    console.error(error)
+  })
+
+  reqq.write(data)
+  reqq.end()
+});
+
+
+
+
+
+
+
+
+
 module.exports = router;
